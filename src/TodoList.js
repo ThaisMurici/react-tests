@@ -11,11 +11,24 @@ export default class src extends Component {
   };
 
   handleAddTodo = () => {
-    this.setState({
-      todos: [...this.state.todos, this.state.newTodo],
-      newTodo: ""
-    });
+    this.setState(
+      {
+        todos: [...this.state.todos, this.state.newTodo],
+        newTodo: ""
+      },
+      () => {
+        localStorage.setItem("todos", JSON.stringify(this.state.todos));
+      }
+    );
   };
+
+  componentDidMount() {
+    const todos = localStorage.getItem("todos");
+
+    if (todos) {
+      this.setState({ todos: JSON.parse(todos) });
+    }
+  }
 
   render() {
     return (
